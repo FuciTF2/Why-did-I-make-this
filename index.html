@@ -3,116 +3,112 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Femboy Chatbot</title>
-    <style>
-        body {
-            font-family: "Comic Sans MS", cursive, sans-serif;
-            background: linear-gradient(to right, #ffb6c1, #ffccff);
-            text-align: center;
-            color: #ff69b4;
-            padding: 20px;
-        }
-        .chatbox {
-            max-width: 400px;
-            margin: auto;
-            background: white;
-            border-radius: 15px;
-            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-            padding: 20px;
-        }
-        .messages {
-            text-align: left;
-            max-height: 300px;
-            overflow-y: auto;
-            padding: 10px;
-        }
-        .message {
-            padding: 8px;
-            margin: 5px 0;
-            border-radius: 10px;
-            display: inline-block;
-            max-width: 80%;
-        }
-        .bot {
-            background: #ffccff;
-            color: #d63384;
-            align-self: flex-start;
-        }
-        .user {
-            background: #ffb6c1;
-            color: white;
-            align-self: flex-end;
-            float: right;
-        }
-        input {
-            width: 80%;
-            padding: 10px;
-            border: 2px solid #ff69b4;
-            border-radius: 10px;
-            margin-top: 10px;
-            font-size: 16px;
-        }
-        button {
-            padding: 10px 15px;
-            background: #ff69b4;
-            color: white;
-            border: none;
-            border-radius: 10px;
-            cursor: pointer;
-            font-size: 16px;
-        }
-        button:hover {
-            background: #ff1493;
-        }
-    </style>
+    <title>Femboy Chat • Regular / Freaky</title>
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-
-    <h1>Femboy Chatbot (✿◕‿◕)</h1>
-    <div class="chatbox">
-        <div class="messages" id="chat">
-            <p class="message bot">Hewwo~! I'm your femboy AI! (≧◡≦) ♡</p>
-        </div>
-        <input type="text" id="userInput" placeholder="Type a message...">
-        <button onclick="sendMessage()">Send</button>
+    <div class="header">
+        <h1>Femboy Chat</h1>
     </div>
 
+    <div class="mode-toggle">
+        <span class="toggle-label">Regular Mode</span>
+        <label class="switch">
+            <input type="checkbox" id="modeToggle">
+            <span class="slider"></span>
+        </label>
+        <span class="toggle-label">Freaky Mode 👅💦</span>
+    </div>
+
+    <div class="chat-container">
+        <div class="chat-header" id="chatTitle">
+            Hewwo~ I'm your cute femboy! (✿◕‿◕)
+        </div>
+        
+        <div class="messages" id="messages"></div>
+        
+        <div class="typing-indicator" id="typing">
+            <div class="typing-dots"><span></span><span></span><span></span></div>
+        </div>
+        
+        <div class="input-area">
+            <input type="text" id="userInput" placeholder="Say something to your femboy..." autocomplete="off">
+            <button id="sendBtn">Send</button>
+        </div>
+    </div>
+
+    <script src="js/regular.js"></script>
+    <script src="js/freaky.js"></script>
     <script>
-        const responses = [
-            "UwU you're looking cute today! (✿◕‿◕)",
-            "Hewwo~ wanna cuddle and watch anime? (*≧▽≦)",
-            "Nyaa~ you're so cool! (๑˃ᴗ˂)ﻭ",
-            "Omg omg, do you like thigh highs too?! (⁄ ⁄•⁄ω⁄•⁄ ⁄)♡",
-            "Tehee~ you just got femboy'd (≧◡≦) ♡"
-        ];
+        let isFreaky = false;
+
+        const messagesDiv = document.getElementById('messages');
+        const input = document.getElementById('userInput');
+        const sendBtn = document.getElementById('sendBtn');
+        const typing = document.getElementById('typing');
+        const chatTitle = document.getElementById('chatTitle');
+        const modeToggle = document.getElementById('modeToggle');
+
+        function addMessage(text, type) {
+            const msg = document.createElement('div');
+            msg.className = `message ${type}`;
+            msg.textContent = text;
+            messagesDiv.appendChild(msg);
+            messagesDiv.scrollTop = messagesDiv.scrollHeight;
+        }
+
+        async function botReply(userText) {
+            typing.style.display = 'block';
+            messagesDiv.scrollTop = messagesDiv.scrollHeight;
+
+            await new Promise(r => setTimeout(r, 700 + Math.random() * 800));
+
+            typing.style.display = 'none';
+
+            let reply;
+            if (isFreaky) {
+                reply = getFreakyResponse(userText);
+            } else {
+                reply = getRandomRegularResponse();
+            }
+
+            addMessage(reply, 'bot');
+        }
 
         function sendMessage() {
-            let input = document.getElementById("userInput").value;
-            if (input.trim() === "") return;
+            const text = input.value.trim();
+            if (!text) return;
 
-            let chat = document.getElementById("chat");
-
-            // Add user message
-            let userMessage = document.createElement("p");
-            userMessage.className = "message user";
-            userMessage.innerText = input;
-            chat.appendChild(userMessage);
-
-            document.getElementById("userInput").value = "";
-
-            // Auto-scroll chatbox
-            chat.scrollTop = chat.scrollHeight;
-
-            // Respond after a short delay
-            setTimeout(() => {
-                let botMessage = document.createElement("p");
-                botMessage.className = "message bot";
-                botMessage.innerText = responses[Math.floor(Math.random() * responses.length)];
-                chat.appendChild(botMessage);
-                chat.scrollTop = chat.scrollHeight;
-            }, 1000);
+            addMessage(text, 'user');
+            input.value = '';
+            botReply(text);
         }
-    </script>
 
+        sendBtn.addEventListener('click', sendMessage);
+        input.addEventListener('keypress', e => {
+            if (e.key === 'Enter') sendMessage();
+        });
+
+        modeToggle.addEventListener('change', () => {
+            isFreaky = modeToggle.checked;
+
+            if (isFreaky) {
+                chatTitle.textContent = "Freaky Femboy Mode 👅💦";
+                chatTitle.style.background = 'linear-gradient(to right, #ff1493, #8b008b)';
+                addMessage("Mmm~ I've been waiting so long... What do you want to do to your needy little toy first, master? 👅💦", 'bot');
+            } else {
+                chatTitle.textContent = "Hewwo~ I'm your cute femboy! (✿◕‿◕)";
+                chatTitle.style.background = 'linear-gradient(to right, #ff69b4, #ff1493)';
+                addMessage("Back to soft & cuddly mode~ Hewwo again! ♡", 'bot');
+            }
+        });
+
+        // Initial greeting
+        window.onload = () => {
+            setTimeout(() => {
+                addMessage("Hewwo~! I'm your femboy AI ♡ What would you like to talk about today?", 'bot');
+            }, 400);
+        };
+    </script>
 </body>
 </html>

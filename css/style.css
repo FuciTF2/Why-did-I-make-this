@@ -1,0 +1,200 @@
+@import url('https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&display=swap');
+
+:root {
+    --pink: #ff1493;
+    --hotpink: #ff69b4;
+    --dark: #1a0033;
+}
+
+body {
+    margin: 0;
+    padding: 20px 10px;
+    font-family: 'Comic Neue', cursive, sans-serif;
+    background: linear-gradient(135deg, #ff69b4, #1a0033);
+    color: white;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.header h1 {
+    margin: 0;
+    text-shadow: 0 0 15px var(--pink);
+    font-size: 2.6rem;
+}
+
+.mode-toggle {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    background: rgba(0,0,0,0.45);
+    padding: 12px 25px;
+    border-radius: 50px;
+    margin-bottom: 20px;
+    box-shadow: 0 0 20px rgba(255,20,147,0.6);
+}
+
+.toggle-label { 
+    font-weight: bold; 
+    font-size: 1.15rem; 
+}
+
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 62px;
+    height: 34px;
+}
+
+.switch input { 
+    opacity: 0; 
+    width: 0; 
+    height: 0; 
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-color: #333;
+    transition: .4s;
+    border-radius: 34px;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    transition: .4s;
+    border-radius: 50%;
+}
+
+input:checked + .slider { 
+    background-color: var(--hotpink); 
+}
+
+input:checked + .slider:before { 
+    transform: translateX(28px); 
+}
+
+.chat-container {
+    max-width: 520px;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    border: 5px solid var(--pink);
+    border-radius: 28px;
+    box-shadow: 0 0 35px var(--hotpink);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    height: 650px;
+}
+
+.chat-header {
+    padding: 16px;
+    text-align: center;
+    font-size: 1.35rem;
+    font-weight: bold;
+    transition: background 0.4s;
+}
+
+.messages {
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    background: rgba(0,0,0,0.35);
+}
+
+.message {
+    max-width: 85%;
+    padding: 13px 17px;
+    border-radius: 20px;
+    line-height: 1.45;
+    animation: pop 0.3s ease-out;
+}
+
+.bot {
+    align-self: flex-start;
+    background: linear-gradient(#ff69b4, #ff1493);
+    border-bottom-left-radius: 5px;
+}
+
+.user {
+    align-self: flex-end;
+    background: var(--dark);
+    color: #ffb6c1;
+    border-bottom-right-radius: 5px;
+}
+
+.typing-indicator {
+    align-self: flex-start;
+    background: linear-gradient(#ff69b4, #ff1493);
+    padding: 12px 20px;
+    border-radius: 20px;
+    border-bottom-left-radius: 5px;
+    display: none;
+}
+
+.typing-dots span {
+    display: inline-block;
+    width: 8px; 
+    height: 8px;
+    background: white;
+    border-radius: 50%;
+    margin: 0 3px;
+    animation: bounce 1.3s infinite;
+}
+
+.typing-dots span:nth-child(2) { animation-delay: 0.2s; }
+.typing-dots span:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes bounce {
+    0%, 80%, 100% { transform: translateY(0); }
+    40% { transform: translateY(-7px); }
+}
+
+.input-area {
+    padding: 16px;
+    background: rgba(0,0,0,0.65);
+    display: flex;
+    gap: 10px;
+}
+
+input {
+    flex: 1;
+    padding: 15px 20px;
+    border: 3px solid var(--pink);
+    border-radius: 9999px;
+    background: #0f0f0f;
+    color: white;
+    font-size: 1.1rem;
+}
+
+button {
+    padding: 0 28px;
+    background: var(--pink);
+    color: white;
+    border: none;
+    border-radius: 9999px;
+    font-size: 1.15rem;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+button:hover {
+    background: var(--hotpink);
+    transform: scale(1.08);
+}
+
+@keyframes pop {
+    from { opacity: 0; transform: scale(0.75) translateY(15px); }
+    to { opacity: 1; transform: scale(1) translateY(0); }
+}
