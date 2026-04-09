@@ -13,14 +13,14 @@ Built as a single-page web app using vanilla HTML, CSS, and JavaScript. No backe
 - Works completely offline
 
 ## Folder Structure
-femboy-chat/
-├── index.html
-├── README.md
-├── css/
-│   └── style.css
-├── js/
-│   ├── regular.js
-│   └── freaky.js
+femboy-chat/ <br>
+├── index.html<br>
+├── README.md<br>
+├── css/<br>
+│   └── style.css<br>
+├── js/<br>
+│   ├── regular.js<br>
+│   └── freaky.js<br>
 
 ## How to Run
 
